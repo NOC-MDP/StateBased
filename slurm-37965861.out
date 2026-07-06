@@ -1,0 +1,5 @@
+/home/users/thopri/PROMOTE/StateBased/state_mo_3_2D.py:798: RuntimeWarning: Mean of empty slice
+  mld_climatology_map = np.nanmean(
+/home/users/thopri/PROMOTE/StateBased/state_mo_3_2D.py:798: RuntimeWarning: Mean of empty slice
+  mld_climatology_map = np.nanmean(
+[2026-07-06T08:06:35.659] error: *** JOB 37965861 ON gpuhost003 CANCELLED AT 2026-07-06T08:06:35 DUE to SIGNAL Terminated ***

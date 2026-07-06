@@ -120,7 +120,7 @@ class ChainedCausalBlock(nn.Module):
         out = self.chomp1(out)
         out = self.relu1(out)
         out = nn.functional.dropout(out, p=self.p, training=self.training or force_mc_dropout)
-        
+
         # Layer 2
         out = self.conv2(out)
         out = self.chomp2(out)
@@ -190,15 +190,15 @@ class WeibullNLLLoss(nn.Module):
         alpha = torch.clamp(alpha, min=self.eps)
         beta = torch.clamp(beta, min=self.eps)
         y = torch.clamp(y, min=self.eps)
-        
+
         log_y_div_alpha = torch.log(y) - torch.log(alpha)
-        
+
         event_term = u * (torch.log(beta) - torch.log(alpha) + (beta - 1.0) * log_y_div_alpha)
-        
+
         # Guard against large powers crashing into infinity
         ratio = torch.clamp(y / alpha, max=100.0) 
         survival_term = - torch.pow(ratio, beta)
-        
+
         return torch.mean(-(event_term + survival_term))
 
 
@@ -215,7 +215,7 @@ def train_weibull_tcn(model, train_loader, val_loader, epochs=50, lr=1e-4, devic
     model = model.to(device)
     criterion = WeibullNLLLoss()
     optimizer = optim.Adam(model.parameters(), lr=lr, weight_decay=1e-5)
-    
+
 
     # Adjust learning rate dynamically if validation loss plateaus
     scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', patience=5, factor=0.5)
@@ -317,7 +317,7 @@ def run_inference_and_plot(work_dir,models_list, test_loader, cv_train_histories
     """
     Runs cross-model ensemble inference embedded with MC Dropout passes.
     Generates independent diagnostic dashboards for validation members.
-    
+
     Parameters:
     -----------
     num_plots : int or None
@@ -335,36 +335,36 @@ def run_inference_and_plot(work_dir,models_list, test_loader, cv_train_histories
         for batch_idx, (batch_x, batch_y, _) in enumerate(test_loader):
             batch_x = batch_x.to(device)
             true_seq = batch_y.detach().cpu().numpy()[0] # shape: (seq_len,)
-            
+
             # --- DYNAMIC INDIVIDUAL MEMBER TIPPING DETECTION ---
             zero_indices = np.where(true_seq <= 0.05)[0]
             member_tipping_idx = zero_indices[0] if len(zero_indices) > 0 else np.argmin(true_seq)
-            
+
             member_mc_medians = []
             for model in models_list:
                 for _ in range(mc_iterations):
                     alpha, beta = model(batch_x, force_mc_dropout=True)
                     median, _, _ = predict_time_to_tip(alpha.cpu(), beta.cpu())
                     member_mc_medians.append(median[0])
-            
+
             member_mc_medians = np.array(member_mc_medians) # shape: (Folds*MC, seq_len)
-            
+
             # Compute trajectory distribution profiles
             m_median = np.median(member_mc_medians, axis=0)
             m_p10 = np.percentile(member_mc_medians, 10, axis=0)
             m_p90 = np.percentile(member_mc_medians, 90, axis=0)
             m_p25 = np.percentile(member_mc_medians, 25, axis=0)
             m_p75 = np.percentile(member_mc_medians, 75, axis=0)
-            
+
             # Compute residual errors directly from the stochastic passes
             member_residuals = member_mc_medians - true_seq
             m_res_median = m_median - true_seq
-            
+
             m_res_p10 = np.percentile(member_residuals, 10, axis=0)
             m_res_p90 = np.percentile(member_residuals, 90, axis=0)
             m_res_p25 = np.percentile(member_residuals, 25, axis=0)
             m_res_p75 = np.percentile(member_residuals, 75, axis=0)
-            
+
             # Pack all records for this validation member
             member_data.append({
                 'member_id': batch_idx + 1,
@@ -382,7 +382,7 @@ def run_inference_and_plot(work_dir,models_list, test_loader, cv_train_histories
     # 2. Determine which validation records to plot
     total_members = len(member_data)
     indices_to_plot = list(range(total_members))
-    
+
     if num_plots is not None and num_plots < total_members:
         indices_to_plot = random.sample(indices_to_plot, num_plots)
         print(f"--> Randomly selected {num_plots} out of {total_members} validation members for visualization.")
@@ -394,7 +394,7 @@ def run_inference_and_plot(work_dir,models_list, test_loader, cv_train_histories
         m = member_data[idx]
         tip_x = time_steps[m['tipping_idx']]
         tip_y = m['true_seq'][m['tipping_idx']]
-        
+
         with plt.style.context('default'):
             fig, axs = plt.subplots(2, 2, figsize=(14, 10))
             fig.patch.set_facecolor('white')
@@ -413,14 +413,14 @@ def run_inference_and_plot(work_dir,models_list, test_loader, cv_train_histories
             # --- Plot B: Member Specific Horizon Tracking ---
             axs[0, 1].plot(time_steps, m['true_seq'], label='True TTT', color='green', lw=2, linestyle=':')
             axs[0, 1].plot(time_steps, m['pred_median'], label='Ensemble Median TTT', color='crimson', lw=2)
-            
+
             # Layered Percentile Shading for Predictions
             axs[0, 1].fill_between(time_steps, m['pred_p10'], m['pred_p90'], color='crimson', alpha=0.15, label='10-90% Uncertainty')
             axs[0, 1].fill_between(time_steps, m['pred_p25'], m['pred_p75'], color='crimson', alpha=0.25, label='25-75% Interquartile')
-            
+
             axs[0, 1].axvline(x=tip_x, color='black', linestyle='--', alpha=0.7, label='Tipping Horizon')
             axs[0, 1].scatter(tip_x, tip_y, color='gold', edgecolor='black', s=200, marker='*', zorder=5, label='Tipping Event')
-            
+
             axs[0, 1].set_title('Time-to-Tip Horizon Tracking', color='black')
             axs[0, 1].set_xlabel('Simulation Progress (Years)', color='black')
             axs[0, 1].set_ylabel('Years Remaining', color='black')
@@ -430,13 +430,13 @@ def run_inference_and_plot(work_dir,models_list, test_loader, cv_train_histories
             # --- Plot C: Member Specific Residual Shaded Tracking ---
             axs[1, 0].plot(time_steps, m['res_median'], color='purple', lw=2, label='Ensemble Error')
             axs[1, 0].axhline(0, color='black', linestyle='--', alpha=0.7)
-            
+
             # Layered Percentile Shading for Residual Errors
             axs[1, 0].fill_between(time_steps, m['res_p10'], m['res_p90'], color='purple', alpha=0.12, label='10-90% Error Spread')
             axs[1, 0].fill_between(time_steps, m['res_p25'], m['res_p75'], color='purple', alpha=0.22, label='25-75% Error Spread')
-            
+
             axs[1, 0].axvline(x=tip_x, color='black', linestyle='--', alpha=0.4)
-            
+
             axs[1, 0].set_title('Prediction Error Over Timeline', color='black')
             axs[1, 0].set_xlabel('Simulation Progress (Years)', color='black')
             axs[1, 0].set_ylabel('Error (Years)', color='black')
@@ -743,7 +743,8 @@ def _():
         if extract_from_CANARI:
             extract_single_point_features_for_all_ensembles(base_dir=base_dir,work_dir=work_dir)
 
-    
+
+
         data = MultiMemberOceanDataset(work_dir=work_dir,search_pattern="ensemble_member_*.csv")
 
         full_dataset = TensorDataset(data.X, data.Y, data.U)
@@ -752,7 +753,7 @@ def _():
         # 2. Setup K-Fold parameters
         n_splits = 5
         kf = KFold(n_splits=n_splits, shuffle=True, random_state=64)
-    
+
         trained_models = []
         cv_train_histories = []
         cv_val_histories = []
@@ -760,7 +761,7 @@ def _():
         # 3. K-Fold Training Loop
         for fold, (train_idx, val_idx) in enumerate(kf.split(np.arange(len(data)))):
             print(f"\n--- Training Fold {fold + 1} / {n_splits} ---")
-        
+
             # Sub-allocations using PyTorch Subsets
             train_subset = Subset(full_dataset, train_idx)
             val_subset = Subset(full_dataset, val_idx)
@@ -770,11 +771,11 @@ def _():
 
             # Initialize isolated network configurations per fold
             fold_model = TemporalWeibullRegressor(num_inputs=num_features, num_channels=[32, 64, 128])
-        
+
             train_hist, val_hist = train_weibull_tcn(
                 fold_model, train_loader, val_loader, epochs=30, lr=5e-5, device=device
             )
-        
+
             trained_models.append(fold_model)
             cv_train_histories.append(train_hist)
             cv_val_histories.append(val_hist)
@@ -793,9 +794,8 @@ def _():
             cv_val_histories=cv_val_histories, 
             mc_iterations=30, # Runs 30 iterations * 5 folds = 150 predictions per sequence step
             device=device,
-            # num_plots=2,
+            num_plots=2,
         )
-
     return
 
 

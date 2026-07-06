@@ -1,0 +1,16 @@
+/home/users/thopri/PROMOTE/StateBased/state_mo_3_2D.py:829: RuntimeWarning: Mean of empty slice
+  mld_climatology_map = np.nanmean(historical_baseline_mld, axis=0)
+/home/users/thopri/PROMOTE/StateBased/state_mo_3_2D.py:829: RuntimeWarning: Mean of empty slice
+  mld_climatology_map = np.nanmean(historical_baseline_mld, axis=0)
+/home/users/thopri/PROMOTE/StateBased/state_mo_3_2D.py:829: RuntimeWarning: Mean of empty slice
+  mld_climatology_map = np.nanmean(historical_baseline_mld, axis=0)
+/home/users/thopri/PROMOTE/StateBased/state_mo_3_2D.py:829: RuntimeWarning: Mean of empty slice
+  mld_climatology_map = np.nanmean(historical_baseline_mld, axis=0)
+/home/users/thopri/PROMOTE/StateBased/state_mo_3_2D.py:829: RuntimeWarning: Mean of empty slice
+  mld_climatology_map = np.nanmean(historical_baseline_mld, axis=0)
+/home/users/thopri/PROMOTE/StateBased/state_mo_3_2D.py:829: RuntimeWarning: Mean of empty slice
+  mld_climatology_map = np.nanmean(historical_baseline_mld, axis=0)
+/home/users/thopri/PROMOTE/StateBased/state_mo_3_2D.py:829: RuntimeWarning: Mean of empty slice
+  mld_climatology_map = np.nanmean(historical_baseline_mld, axis=0)
+/home/users/thopri/PROMOTE/StateBased/state_mo_3_2D.py:829: RuntimeWarning: Mean of empty slice
+  mld_climatology_map = np.nanmean(historical_baseline_mld, axis=0)

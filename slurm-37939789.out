@@ -1,0 +1,52 @@
+running on device: cuda
+
+=========================================
+Processing Ensemble Member: 01
+=========================================
+  Missing files for year 2100 (SSP370). Skipping...
+  Concatenating time series along temporal dimension...
+Traceback (most recent call last):
+  File "/home/users/thopri/PROMOTE/StateBased/state_mo_3_2D.py", line 1239, in <module>
+    app.run()
+  File "/home/users/thopri/.local/lib/python3.12/site-packages/marimo/_ast/app.py", line 775, in run
+    ).run()
+      ^^^^^
+  File "/home/users/thopri/.local/lib/python3.12/site-packages/marimo/_runtime/app/script_runner.py", line 242, in run
+    raise e.__cause__ from None  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/users/thopri/PROMOTE/StateBased/state_mo_3_2D.py", line 1144, in <module>
+    process_spg_features_and_targets(base_dir=base_dir, work_dir=work_dir)
+  File "/home/users/thopri/PROMOTE/StateBased/state_mo_3_2D.py", line 706, in process_spg_features_and_targets
+    baseline = spg_features.sel(time=slice(BASELINE_ST_YEAR, BASELINE_END_YEAR))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/apps/jasmin/jaspy/miniforge_envs/jaspy3.12/mf3-25.3.0-3/envs/jaspy3.12-mf3-25.3.0-3-v20250704/lib/python3.12/site-packages/xarray/core/dataset.py", line 2911, in sel
+    query_results = map_index_queries(
+                    ^^^^^^^^^^^^^^^^^^
+  File "/apps/jasmin/jaspy/miniforge_envs/jaspy3.12/mf3-25.3.0-3/envs/jaspy3.12-mf3-25.3.0-3-v20250704/lib/python3.12/site-packages/xarray/core/indexing.py", line 197, in map_index_queries
+    results.append(index.sel(labels, **options))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/apps/jasmin/jaspy/miniforge_envs/jaspy3.12/mf3-25.3.0-3/envs/jaspy3.12-mf3-25.3.0-3-v20250704/lib/python3.12/site-packages/xarray/core/indexes.py", line 833, in sel
+    indexer = _query_slice(self.index, label, coord_name, method, tolerance)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/apps/jasmin/jaspy/miniforge_envs/jaspy3.12/mf3-25.3.0-3/envs/jaspy3.12-mf3-25.3.0-3-v20250704/lib/python3.12/site-packages/xarray/core/indexes.py", line 566, in _query_slice
+    indexer = index.slice_indexer(
+              ^^^^^^^^^^^^^^^^^^^^
+  File "/apps/jasmin/jaspy/miniforge_envs/jaspy3.12/mf3-25.3.0-3/envs/jaspy3.12-mf3-25.3.0-3-v20250704/lib/python3.12/site-packages/pandas/core/indexes/base.py", line 6678, in slice_indexer
+    start_slice, end_slice = self.slice_locs(start, end, step=step)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/apps/jasmin/jaspy/miniforge_envs/jaspy3.12/mf3-25.3.0-3/envs/jaspy3.12-mf3-25.3.0-3-v20250704/lib/python3.12/site-packages/pandas/core/indexes/base.py", line 6904, in slice_locs
+    start_slice = self.get_slice_bound(start, "left")
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/apps/jasmin/jaspy/miniforge_envs/jaspy3.12/mf3-25.3.0-3/envs/jaspy3.12-mf3-25.3.0-3-v20250704/lib/python3.12/site-packages/pandas/core/indexes/base.py", line 6826, in get_slice_bound
+    return self._searchsorted_monotonic(label, side)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/apps/jasmin/jaspy/miniforge_envs/jaspy3.12/mf3-25.3.0-3/envs/jaspy3.12-mf3-25.3.0-3-v20250704/lib/python3.12/site-packages/pandas/core/indexes/base.py", line 6758, in _searchsorted_monotonic
+    return self.searchsorted(label, side=side)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/apps/jasmin/jaspy/miniforge_envs/jaspy3.12/mf3-25.3.0-3/envs/jaspy3.12-mf3-25.3.0-3-v20250704/lib/python3.12/site-packages/pandas/core/base.py", line 1361, in searchsorted
+    return algorithms.searchsorted(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/apps/jasmin/jaspy/miniforge_envs/jaspy3.12/mf3-25.3.0-3/envs/jaspy3.12-mf3-25.3.0-3-v20250704/lib/python3.12/site-packages/pandas/core/algorithms.py", line 1329, in searchsorted
+    return arr.searchsorted(value, side=side, sorter=sorter)  # type: ignore[arg-type]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'cftime._cftime.Datetime360Day' and 'int'

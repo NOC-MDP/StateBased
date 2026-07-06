@@ -1,0 +1,69 @@
+running on device: cuda
+
+=========================================
+Processing Ensemble Member: 01
+=========================================
+Traceback (most recent call last):
+  File "/home/users/thopri/PROMOTE/StateBased/state_mo_3_2D.py", line 1118, in <module>
+    app.run()
+  File "/home/users/thopri/.local/lib/python3.12/site-packages/marimo/_ast/app.py", line 775, in run
+    ).run()
+      ^^^^^
+  File "/home/users/thopri/.local/lib/python3.12/site-packages/marimo/_runtime/app/script_runner.py", line 242, in run
+    raise e.__cause__ from None  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/users/thopri/PROMOTE/StateBased/state_mo_3_2D.py", line 1023, in <module>
+    process_spg_features_and_targets(base_dir=base_dir, work_dir=work_dir)
+  File "/home/users/thopri/PROMOTE/StateBased/state_mo_3_2D.py", line 719, in process_spg_features_and_targets
+    ds_t_crop = ds_temp.where(spatial_mask, drop=True)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/apps/jasmin/jaspy/miniforge_envs/jaspy3.12/mf3-25.3.0-3/envs/jaspy3.12-mf3-25.3.0-3-v20250704/lib/python3.12/site-packages/xarray/core/common.py", line 1259, in where
+    return ops.where_method(self, cond, other)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/apps/jasmin/jaspy/miniforge_envs/jaspy3.12/mf3-25.3.0-3/envs/jaspy3.12-mf3-25.3.0-3-v20250704/lib/python3.12/site-packages/xarray/computation/ops.py", line 181, in where_method
+    return apply_ufunc(
+           ^^^^^^^^^^^^
+  File "/apps/jasmin/jaspy/miniforge_envs/jaspy3.12/mf3-25.3.0-3/envs/jaspy3.12-mf3-25.3.0-3-v20250704/lib/python3.12/site-packages/xarray/computation/apply_ufunc.py", line 1249, in apply_ufunc
+    return apply_dataset_vfunc(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/apps/jasmin/jaspy/miniforge_envs/jaspy3.12/mf3-25.3.0-3/envs/jaspy3.12-mf3-25.3.0-3-v20250704/lib/python3.12/site-packages/xarray/computation/apply_ufunc.py", line 520, in apply_dataset_vfunc
+    result_vars = apply_dict_of_variables_vfunc(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/apps/jasmin/jaspy/miniforge_envs/jaspy3.12/mf3-25.3.0-3/envs/jaspy3.12-mf3-25.3.0-3-v20250704/lib/python3.12/site-packages/xarray/computation/apply_ufunc.py", line 445, in apply_dict_of_variables_vfunc
+    result_vars[name] = func(*variable_args)
+                        ^^^^^^^^^^^^^^^^^^^^
+  File "/apps/jasmin/jaspy/miniforge_envs/jaspy3.12/mf3-25.3.0-3/envs/jaspy3.12-mf3-25.3.0-3-v20250704/lib/python3.12/site-packages/xarray/computation/apply_ufunc.py", line 725, in apply_variable_ufunc
+    broadcast_compat_data(arg, broadcast_dims, core_dims)
+  File "/apps/jasmin/jaspy/miniforge_envs/jaspy3.12/mf3-25.3.0-3/envs/jaspy3.12-mf3-25.3.0-3-v20250704/lib/python3.12/site-packages/xarray/computation/apply_ufunc.py", line 646, in broadcast_compat_data
+    data = variable.data
+           ^^^^^^^^^^^^^
+  File "/apps/jasmin/jaspy/miniforge_envs/jaspy3.12/mf3-25.3.0-3/envs/jaspy3.12-mf3-25.3.0-3-v20250704/lib/python3.12/site-packages/xarray/core/variable.py", line 430, in data
+    duck_array = self._data.get_duck_array()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/apps/jasmin/jaspy/miniforge_envs/jaspy3.12/mf3-25.3.0-3/envs/jaspy3.12-mf3-25.3.0-3-v20250704/lib/python3.12/site-packages/xarray/core/indexing.py", line 845, in get_duck_array
+    self._ensure_cached()
+  File "/apps/jasmin/jaspy/miniforge_envs/jaspy3.12/mf3-25.3.0-3/envs/jaspy3.12-mf3-25.3.0-3-v20250704/lib/python3.12/site-packages/xarray/core/indexing.py", line 842, in _ensure_cached
+    self.array = as_indexable(self.array.get_duck_array())
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/apps/jasmin/jaspy/miniforge_envs/jaspy3.12/mf3-25.3.0-3/envs/jaspy3.12-mf3-25.3.0-3-v20250704/lib/python3.12/site-packages/xarray/core/indexing.py", line 799, in get_duck_array
+    return self.array.get_duck_array()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/apps/jasmin/jaspy/miniforge_envs/jaspy3.12/mf3-25.3.0-3/envs/jaspy3.12-mf3-25.3.0-3-v20250704/lib/python3.12/site-packages/xarray/core/indexing.py", line 654, in get_duck_array
+    array = self.array[self.key]
+            ~~~~~~~~~~^^^^^^^^^^
+  File "/apps/jasmin/jaspy/miniforge_envs/jaspy3.12/mf3-25.3.0-3/envs/jaspy3.12-mf3-25.3.0-3-v20250704/lib/python3.12/site-packages/xarray/backends/netCDF4_.py", line 108, in __getitem__
+    return indexing.explicit_indexing_adapter(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/apps/jasmin/jaspy/miniforge_envs/jaspy3.12/mf3-25.3.0-3/envs/jaspy3.12-mf3-25.3.0-3-v20250704/lib/python3.12/site-packages/xarray/core/indexing.py", line 1023, in explicit_indexing_adapter
+    result = raw_indexing_method(raw_key.tuple)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/apps/jasmin/jaspy/miniforge_envs/jaspy3.12/mf3-25.3.0-3/envs/jaspy3.12-mf3-25.3.0-3-v20250704/lib/python3.12/site-packages/xarray/backends/netCDF4_.py", line 121, in _getitem
+    array = getitem(original_array, key)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "src/netCDF4/_netCDF4.pyx", line 5055, in netCDF4._netCDF4.Variable.__getitem__
+  File "/apps/jasmin/jaspy/miniforge_envs/jaspy3.12/mf3-25.3.0-3/envs/jaspy3.12-mf3-25.3.0-3-v20250704/lib/python3.12/site-packages/netCDF4/utils.py", line 429, in _StartCountStride
+    start[...,i] = np.apply_along_axis(lambda x: e*x, i, np.ones(sdim[:-1]))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/users/thopri/.local/lib/python3.12/site-packages/numpy/lib/_shape_base_impl.py", line 383, in apply_along_axis
+    raise ValueError(
+ValueError: Cannot apply_along_axis when any iteration dimensions are 0

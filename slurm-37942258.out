@@ -1,0 +1,2 @@
+/var/spool/slurmd/job37942258/slurm_script: line 11: 1974748 Killed                  python state_mo_3_2D.py
+[2026-07-05T22:09:20.807] error: Detected 1 oom_kill event in StepId=37942258.batch. Some of the step tasks have been OOM Killed.
